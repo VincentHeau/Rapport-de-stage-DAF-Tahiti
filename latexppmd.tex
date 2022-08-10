@@ -1,0 +1,885 @@
+
+\documentclass{themeensg}
+\usepackage{color}
+\usepackage{listings}
+
+%---Texte en filigranne---
+\SetWatermarkText{\textsc{Brouillon}}
+%pour l'enlever : \SetWatermarkText{}
+\SetWatermarkText{}
+
+% mise en page no-stress
+\renewcommand{\familydefault}{\sfdefault}
+%-------------------------
+
+%---Mes packages à moi---
+%\usepackage{}
+%------------------------
+
+%---Mes raccourcis---
+\newcommand{\transpose}[1]{{}^t \! #1}
+\newcommand{\ensg}{\textsc{Ensg}}
+
+\renewcommand{\author}{Vincent HEAU}
+
+%--------------------
+
+%---Paramètres du pdf---
+    \hypersetup{
+       backref=true,                           % Permet d'ajouter des liens dans
+       pagebackref=true,                       % les bibliographies
+       hyperindex=true,                        % Ajoute des liens dans les index.
+       colorlinks=true,  %Colorise les liens : true pour version numérique, false pour version d'impression
+       breaklinks=true,                        % Permet le retour à la ligne dans les liens trop longs.
+       urlcolor= black,                         % Couleur des hyperliens.
+       linkcolor= black,                       % Couleur des liens internes.
+       bookmarks=true,                         % Créé des signets pour Acrobat.
+       %bookmarksopen=true,                    % Si les signets Acrobat sont créés,
+                                               % les afficher complètement.
+       pdftitle={Rapport de stage pluridisciplinaire},                 % Titre du document.
+                                               % Informations apparaissant dans
+       pdfauthor={\author},                      % dans les informations du document
+       pdfsubject={Rapport de stage}           % sous Acrobat.
+    }
+
+%-----------------------
+
+
+
+%-------------------------------------------------------------
+
+\setcounter{tocdepth}{2} %profondeur de la table des matières
+
+\title{Diffusion web de la base de donnée topographique de la Polynésie Française}
+
+\bibliography{latexppmd}
+
+%
+%-------------------------------------------------------------
+% Début du document
+%--------------------------------------------------------------
+\begin{document}
+%--------------------------------------------------------------
+\begin{titlepage}
+%Inclusion des labels des entreprises
+%Pour un seul label (à gauche), mettre NULL pour les 3e et 4e argument
+\enterprise 
+{logos/logo_ensg}
+{Ecole Nationale des Sciences Géographiques}
+{logos/logo_daf_bis}
+{Direction des Affaires Foncières de la Polynésie Française}
+\vspace{1cm}
+%Inclusion du titre
+
+\maketitle{{Rapport de Projet Pluridisciplinaire}\\{Cycle des Ingénieurs  diplômés de l'ENSG 2\up{ème} année (IT2)}}{images/logos/accueil.png}
+
+
+\infos{\author}{Août 2022}
+\end{titlepage}
+
+
+% ---Page du jury---
+\input{jury}
+%------------------
+
+%------------------------------------------------------------------------------
+% Remerciements
+\newevenpage
+\chapter*{Remerciements}
+\begin{comment}
+Ce stage au sein de la Direction des Affaires Foncières de la Polynésie Française a été une expérience professionnelle particulièrement enrichissante. Je tiens à remercier mes collègues de travail de la cellule Cadastre-Topographie, Lucie, Frédéric, Tania, Mira, Maud et François pour m'avoir permis de m'intégrer au mieux et pour les moments passés ensembles. Je remercie Lucas, Matthieu, et Bernard de la cellule topographie qui, toujours avec beaucoup de gentillesse, ont pris le temps de regarder mes cartes, de me faire des retours et de m'aider. L'ambiance de travail au sein de la section Cadastre-Topographie est excellente et ces trois mois de travail furent très agréables. 
+Je tiens à remercier tout particulièrement mon maître de stage Yoann RONCIN pour tout le temps qu'il m'a accordé, pour les conseils et toutes les compétences qu'il m'a permis d'acquérir que ce soit avec ArcGIS, ArcGIS Online ou encore FME . Grâce à lui, ce stage s'est avéré être extrêmement enrichissant et je suis heureux d'avoir pu découvrir et apprendre autant de choses grâce à lui.
+Ce stage n'aurait pas été possible sans Alexandre AMARY, qui m'a proposé de m'accueillir à la DAF pour travailler sur un sujet qui m'a beaucoup plu. Je le remercie sincèrement.
+
+Enfin, je souhaitais aussi remercier mon professeur référent Emmanuel FRITSCH pour ses commentaires et ses retours constructifs ainsi que Cécile DUCHENE, qui bien que n'étant pas mon professeur référent, a pris le temps de m'écrire, de me proposer son aide et de m'envoyer des documents concernant la généralisation qui se sont avérés particulièrement utiles lors de la rédaction de mon rapport. 
+ 
+\end{comment}
+
+%---Résumé (français)---
+\begin{abstract}
+\thispagestyle{empty}
+	\vspace{1cm}
+
+	
+En Polynésie Française, les données cartographiques sont mises à disposition et maintenues par la section Cadastre-Topographie de la Direction des Affaires Foncières (DAF). Jusqu’à présent la donnée cartographique était collectée au 1/5 000e et symbolisée à des échelles destinées à l’impression papier: 1/5 000e, 1/15 000e, 1/25 000 et 1/50 000e sans travail de généralisation cartographique. Ce projet a vocation à être un travail expérimental destiné à mettre en place un fond de carte topographique approprié à une utilisation multi échelle sur le web et à l’utiliser au sein d’applications web similaires au géoportail. Le travail préliminaire a nécessité une généralisation cartographique aux multiples échelles choisies. En vue de produire des cartes cohérentes à diverses échelles, cette généralisation s'accompagne d'un travail d'étiquetage et de symbologie. La généralisation permettra de rendre le portail plus interactif et plus clair pour la visualisation de la Polynésie à toutes les échelles et non plus seulement au 1/5000. C'est une phase primordiale permettant non seulement une navigation fluide de l'utilisateur lors du changement d'échelle, mais aussi une cartographie lisible et adaptée aux différents niveaux de zoom. Pour parvenir à ce résultat, une importante préparation des couches est nécessaire en effectuant pour chacune d'entre elle, les traitements adaptés. La finalité de ce travail préparatoire est la publication sur le web à l'aide d'ArcGIS Online, ainsi que l'utilisation du portail à travers diverses thématiques comme la diffusion des fiches géodésiques et de nivellement.
+
+	\vspace{1.5cm}
+	
+	\textbf{Mots clés :} Fond de carte, généralisation cartographique, symbologie, étiquetage, cartographie web, Polynésie Française
+\end{abstract}
+%-----------------------
+\begin{comment}
+
+\end{comment}
+
+%---Résumé (anglais)---
+%\selectlanguage{english}
+\begin{abstract}
+\thispagestyle{empty}
+	\vspace{1cm}
+	
+	\begin{comment}
+ 	This project is willing to produce a web cartography of French Polynesia based on the topographic data of the [DAF]. Map production at such diffrent levels could not be realised without cartographic generalization as well as labeling and symbology. This preliminary work aims not only at producing maps able to fit the selected scale on a web plateform, but also at improving the changes of scales to make it easy to read and understand.
+	This part is fundamental and should be done throughout many algorithms able to transform data produced for 1:5000 map. The purpose is to produce a web portal which will also be used to broadcast geodesic sheets.
+   \end{comment}
+
+	\vspace{1.5cm}
+	
+	\textbf{Key words:} Basemap, cartographic generalization, symbology,labeling, web cartography, French Polynesia
+	
+\end{abstract}
+%----------------------
+
+\selectlanguage{french}
+
+%---Table des matières, des figures et des tableaux---
+\newevenpage
+\tableofcontents
+
+
+
+\newevenpage
+\chapter*{Glossaire et sigles utiles}
+\addcontentsline{toc}{chapter}{Glossaire et sigles utiles}
+
+  \begin{acronym}
+  \acro{ENSG}{\'Ecole Nationale des Sciences Géographiques}
+  \acro{DAF}{Direction des Affaires Foncières - La cellule topographie, rattachée à la section Cadastre-Topographie de la DAF a notamment pour mission la cartographie de la Polynésie}
+  \acro{SGBD}{}
+  \acro{BDG}{}
+  \acro{BDC}{}
+  
+  \acro{PAI}{Points d'activité et d'intérêt - Correspondent à une catégorie particulière en cartographie}
+  \end{acronym}
+
+\begin{comment}
+
+\begin{center}
+    \textbf{Vocabulaire de la cartographie en Polynésie Française}\\
+    \vspace{0,25cm}
+    \textit{La cartographie en Polynésie Française nécessite l'utilisation de mots en tahitiens ou de mots spécifiques au lexique des îles entourées de lagon du Pacifique . Ci-dessous, ce glossaire présente quelques termes utiles à la lecture et à la compréhension des cartes polynésiennes. Certains mots sont illustrés par les figures de la page suivante.}
+\end{center}
+
+ \begin{acronym}
+ 
+ \acro{Hoa}{Mot tahitien désignant une petite ouverture de la barrière de corail sur la mer semblable à une petite passe de faible profondeur.}
+ 
+ \acro{Maoti}{Nom tahitien désignant une résurgence du récif au large. Les Maoti sont souvent très visibles lors des fortes houles, lorsque les vagues y déferlent.(Ils s'observent notamment sur la côte est de Tahiti)}
+ 
+ \acro{Marae}{Lieu de culte des anciens polynésiens, caractérisés aujourd'hui comme des points d'activité et d'intérêts}
+ 
+  \acro{Motu}{Un motu est un îlot corallien qui apparaît dans le lagon à la suite d'une accumulation du récif barrière. La formation d'une lentille d'eau douce en dessous du Motu permet à un certain type de végétation de s'y développer. Certains motus sont célèbres comme le Motu Uta de Papeete sur lequel à été installé le port industrielle, le stockage du pétrole ou encore le dépot des conteneurs.}
+  
+  
+  \acro{PK}{Point kilométrique - Bornes kilométriques caractéristiques en Polynésie française et permettant de se repérer notamment sur l'île de Tahiti}
+  
+  \acro{PK}{Point kilométrique - Bornes kilométriques caractéristiques en Polynésie française et permettant de se repérer notamment sur l'île de Tahiti}
+  
+
+  \end{acronym}
+
+
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{images/Annexes/nono.png}%
+\caption{Motu Nono au large d'Afaahiti}%
+\label{fig:graphics}% label for figure
+\end{figure}
+
+\begin{figure}
+\centering
+\subfloat{\label{fig:gull}\includegraphics[width=0.4\textwidth]{images/Annexes/nono.png}}
+\subfloat{\label{fig:tiger}\includegraphics[width=0.4\textwidth]{images/Annexes/nono.png}}
+\subfloat{\label{fig:mouse}\includegraphics[width=0.4\textwidth]{images/Annexes/nono.png}}
+\subfloat{\label{fig:mouse}\includegraphics[width=0.4\textwidth]{images/Annexes/nono.png}}
+\caption{Mettre les figures utiles et correctement et au cas où...}
+\label{fig:animals}
+\end{figure} 
+
+
+\end{comment}
+%---Introduction------------------------------------------------------------------
+\newevenpage
+\chapter*{Introduction}
+  \addcontentsline{toc}{chapter}{Introduction}
+  
+  \vspace{1.5cm}
+	Cartographier la Polynésie Française, c'est cartographier un espace vaste de 4167 km², équivalent à la superficie de l’Europe. C'est la mission de la Direction des Affaires Foncières de la Polynésie Française et plus particulièrement celle de la section cadastre-topographie, qui est l'une des quatre grandes divisons de la DAF. Deux géomaticiens, deux géomètres et un aide technique travaillent au sein de la cellule topographie et maintiennent et mettent à jour les données. Elles sont d'une grande précision et disponibles pour l'ensemble des îles de la Polynésie Françaises mais ne sont adaptées que pour une cartographie à l'échelle 1/5000. La DAF propose dans un catalogue, de nombreux produits cartographiques sur demande des utilisateurs mais il n'existe pas à l'heure actuelle de généralisation globale de cette base de données pouvant servir à la cartographie web.
+	
+	Avec l'essor des plateformes de type "Géoportail", la demande en cartographie web est forte. L'objectif de ce stage est de réaliser un travail préparatoire et exploratoire dans ce domaine pour fournir une première version d'un fond de carte adapté à un géoportail. L'ensemble des traitements effectués servant à généraliser les couches, ainsi que l'étiquetage et la symbologie proposée serviront donc de base pour la cellule topographie de la DAF qui pourra s'appuyer sur ce travail par la suite. Ce projet se compose donc de plusieurs phases de travail permettant d'aboutir à une diffusion via ArcGIS Online des données. Il répond à la problématique de diffuser sur le web un portail cartographique spécifique à la Polynésie Française.
+	
+	Les grands axes de ce rapport suivent le déroulement du projet. Il s'agira d'abord de prendre en main l'architecture de la base de données puis de choisir une gamme d'échelles. Ensuite, ce rapport évoquera les traitements spécifiques à chaque couche via des logiciels comme ArcGIS Pro ou FME. Puis le projet se poursuivra par une phase de cartographie sur ArcGIS PRO nécessitant la mise en place d'un étiquetage, d'une symbologie ainsi que l'ajout de raster permettant l'habillage de la carte. Ces phases préparatoires conséquentes, qui constituent la plus grande partie du travail réalisé, permettront de disposer d'une gamme de cartes adaptées à des échelles variées. Cependant, leur diffusion web, qui correspond au dernier axe de travail nécessite une restructuration pour faire face aux contraintes de l'export qui seront détaillées dans ce rapport. La diffusion web via ArcGIS Online sera l'occasion de décliner le portail à diverses utilisations, notamment au travers d'une application web destinée à la diffusion des fiches géodésiques et de nivellement. 
+  
+  \begin{comment}
+  \begin{figure}[ht]
+\centering
+\includegraphics[width=12cm]{images/Annexes/Photoplan_Tahiti_2017_A4_paysage_1-1.png}
+\caption{Exemple de produit réalisé par la DAF}
+\label{intro}
+\end{figure}
+  \end{comment}
+    
+
+%-------------------------------------------------------------------------------
+
+
+\include{chap0}
+\include{chap1}
+\include{chap2}
+\include{chap3}
+
+
+
+%-------------------------------------------------------------------------------
+\newevenpage
+\chapter*{Conclusion}
+  \addcontentsline{toc}{part}{Conclusion}
+  \vspace{1.5cm}
+    Ce travail exploratoire de 12 semaines a permis la création d'un portail cartographique avec les données topographiques. sa réalisation est d'abord passée par une importante phase de généralisation cartographique. Chacune des couches de la base de donnée a été diagnostiquée de manière à proposer un traitement adapté à la visualisation sur une large gamme d'échelle. ces traitements documentés sont expérimentaux et le résultat peut être réajusté via la modification des paramètres des Algorithmes qui ont été réalisé via ModelBuilder ou FME. Ils permettent néanmoins d'aboutir à une gamme de cartes topographiques de la Polynésie Française avec pour chacune d'entre elles, un étiquetage et une symbologie adaptée. La diffusion sur le web via ArcGIS Online, qui a été l'objectif principal de ce stage a nécessité de multiples adaptations du travail précédemment. Il a été notamment question de grouper les couches à la fois par gamme d'échelle pour s'adapter au niveau de zoom, mais aussi par nature selon qu'elles se superposent ou non à l'ombrage. Les données exportées sur la plateforme arcGIS online peuvent faire office de fond de carte. Leur diffusion en tant que tuiles vectorielles et la structure assez complexe du fond de carte rend leur mise à jour difficile. ******** Par ailleurs,   Enfin, ce stage s'est terminé par la diffusion des fiches géodésiques et de nivellement. cette thématique a permis d'aborder les problématiques liées à la configuration des fenêtres contextuelles sur ArcGIS Online. L'ensemble des outils crées ont été regroupé dans un site web tant que les métadonnées des couches et des traitements ont été transmise de manière à pouvoir être modifiées et améliorées dans l'optique de pouvoir un jour le diffuser au grand publique.
+
+
+%-------------------------------------------------------------------------------
+% Insertion de la bibliographie
+\newevenpage
+%\printbibheading
+\printbibliography[title={Bibliographie}]
+\nocite{*}
+
+\newevenpage
+\listoffigures
+
+\newevenpage
+\listoftables
+%----------------------------------------------------
+
+\begin{appendices} 
+\label{beginappendices}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%   ANNEXE A  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\annexe[Base de données de la Polynésie Française - Diagramme de classe]{ Architecture de la base de Données de la Polynésie Française \newline \textit{Diagramme de classes}}
+\label{annexearchitecure}
+
+La prise en main de la base de donnée nécessite de connaître l'ensemble des tables qui la compose ainsi que leurs attributs. Un diagramme fournit en début de stage, permet de bien visualiser l'architecture complète de la base. Ce diagramme précise l'ensemble des attributs et est indispensable pour préparer en amont la symbologie. Ce diagramme UML fait figurer l'ensemble des classes concernant la cartographie.\footnote{Dans ces diagrammes, chacune des classes est bien souvent la représentation schématique d'une couche dans un SIG. Ainsi le diagramme présente les attributs sur lesquels le travail dans un SIG pourra porter. Cependant, il existe des classes qui n'ayant pas de géométrie associée, se caractérisent simplement par des tables. C'est pourquoi le tableau en début d'annexe précise notamment ces informations.}
+
+
+
+
+
+\begin{figure}[!h]
+\centering
+\subfigure{\label{fig:graphics:a}\includegraphics[width=\linewidth]{images/Architecture_BDD/CHAMP_COMMUN.png}}
+\caption{Champs en commun pour tous les classes}%
+\textit{On les retrouve sur toutes les couches + autre commentaire }
+\label{fig:graphics}% label for figure
+\end{figure}
+
+\addtocounter{figure}{-1}
+\begin{figure}
+\addtocounter{figure}{1}
+\centering
+\subfigure{%
+\label{fig:graphics:b}% label for subfigure
+\includegraphics[width=\linewidth]{images/Architecture_BDD/EMPRISE_PRODUIT.png}}%
+\caption{Diagramme des emprises des produits}%
+\textit{Cette classe figure ici à titre informatif. Elle caractérise une couche qui n'est pas utilisée pour la cartographie et qui n'a pas vocation à être généralisée.}
+\end{figure}
+
+\addtocounter{figure}{-1}
+\begin{figure}
+\addtocounter{figure}{1}
+\centering
+\subfigure{%
+\label{fig:graphics:b}% label for subfigure
+\includegraphics[width=\linewidth]{images/Architecture_BDD/EXT_ZONE_REGLEMENTAIRE.png}}%
+\caption{Diagramme de la classe des zones réglementaires}%
+\textit{Cette classe figure ici à titre informatif. Elle caractérise une couche qui n'est pas utilisée pour la cartographie et qui n'a pas vocation à être généralisée.}
+\end{figure}
+
+\addtocounter{figure}{-1}
+\begin{sidewaysfigure}
+\addtocounter{figure}{1}
+\centering
+\subfigure{%
+\label{fig:graphics:b}% label for subfigure
+\includegraphics[width=\linewidth]{images/Architecture_BDD/EDI_BATI.png}}%
+\caption{Diagramme de la classe des bâtiments}%
+\end{sidewaysfigure}
+
+\addtocounter{figure}{-1}
+\begin{sidewaysfigure}
+\addtocounter{figure}{1}
+\centering
+\subfigure{%
+\label{fig:graphics:b}% label for subfigure
+\includegraphics[width=\linewidth]{images/Architecture_BDD/EDI_CONSTRUCTION_S.png}}%
+\caption{Diagramme de la classe des constructions surfaciques}%
+\end{sidewaysfigure}
+
+\addtocounter{figure}{-1}
+\begin{figure}
+\addtocounter{figure}{1}
+\centering
+\subfigure{%
+\label{fig:graphics:b}% label for subfigure
+\includegraphics[width=\linewidth]{images/Architecture_BDD/EDI_CONSTRUCTION_L.png}}%
+\caption{Diagramme de la classe des constructions linéaires}%
+\end{figure}
+
+\addtocounter{figure}{-1}
+\begin{sidewaysfigure}
+\addtocounter{figure}{1}
+\centering
+\subfigure{%
+\label{fig:graphics:b}% label for subfigure
+\includegraphics[width=\linewidth]{images/Architecture_BDD/EDI_CONSTRUCTION_P.png}}%
+\caption{Diagramme de la classe des constructions ponctuelles}%
+\end{sidewaysfigure}
+
+\addtocounter{figure}{-1}
+\begin{sidewaysfigure}
+\addtocounter{figure}{1}
+\centering
+\subfigure{%
+\label{fig:graphics:b}% label for subfigure
+\includegraphics[width=\linewidth]{images/Architecture_BDD/HYD_HYDROGRAPHIE.png}}%
+\caption{Diagramme des classes concernant la thématique hydrographie}
+\end{sidewaysfigure}
+
+\addtocounter{figure}{-1}
+\begin{sidewaysfigure}
+\addtocounter{figure}{1}
+\centering
+\subfigure{%
+\label{fig:graphics:b}% label for subfigure
+\includegraphics[width=\linewidth]{images/Architecture_BDD/LOC_LOCALISATION_ADMIN.png}}%
+\caption{Diagramme des classes de la géographie administrative}%
+\textit{Des classes d'unités statistiques figurent également et renseignent un peu plus les classes purement liées à la géographie et au contour des entités}
+\end{sidewaysfigure}
+
+\addtocounter{figure}{-1}
+\begin{sidewaysfigure}
+\addtocounter{figure}{1}
+\centering
+\subfigure{%
+\label{fig:graphics:b}% label for subfigure
+\includegraphics[width=\linewidth]{images/Architecture_BDD/NOM_TOPONYME-PAI.png}}%
+\caption{Diagramme des classes servant à la toponymie}%
+\textit{Il est à noter comme cela est précisé dans le rapport (page...) que ces classes comportent déjà un champ "Importance" avec des échelles et que ce champ permet de sélectionner pour une échelle donnée, les toponymes et autres points d'activités et d'intérêts (PAI) à placer sur la carte.}
+\end{sidewaysfigure}
+
+\addtocounter{figure}{-1}
+\begin{sidewaysfigure}
+\addtocounter{figure}{1}
+\centering
+\subfigure{%
+\label{fig:graphics:b}% label for subfigure
+\includegraphics[width=\linewidth]{images/Architecture_BDD/REF_REFERENTIEL.png}}%
+\caption{Diagramme des classes concernant le référentiel de mesure}%
+\end{sidewaysfigure}
+
+\addtocounter{figure}{-1}
+\begin{sidewaysfigure}
+\addtocounter{figure}{1}
+\centering
+\subfigure{%
+\label{fig:graphics:b}% label for subfigure
+\includegraphics[width=\linewidth]{images/Architecture_BDD/REL_RELIEF.png}}%
+\caption{Diagramme des classes concernant la thématique du relief}%
+\end{sidewaysfigure}
+
+\addtocounter{figure}{-1}
+\begin{sidewaysfigure}
+\addtocounter{figure}{1}
+\centering
+\subfigure{%
+\label{fig:graphics:b}% label for subfigure
+\includegraphics[width=\linewidth]{images/Architecture_BDD/SOL_OCCUPATION_SOLS.png}}%
+\caption{Diagramme des classes concernant la thématique de l'occupation des sols}%
+\end{sidewaysfigure}
+
+\addtocounter{figure}{-1}
+\begin{sidewaysfigure}
+\addtocounter{figure}{1}
+\centering
+\subfigure{%
+\label{fig:graphics:b}% label for subfigure
+\includegraphics[width=\linewidth]{images/Architecture_BDD/VOI_RESEAU_ROUTIER.png}}%
+\caption{Diagramme des classes concernant la thématique de la voirie}%
+\end{sidewaysfigure}
+
+\addtocounter{figure}{-1}
+\begin{sidewaysfigure}
+\addtocounter{figure}{1}
+\centering
+\subfigure{%
+\label{fig:graphics:b}% label for subfigure
+\includegraphics[width=\linewidth]{images/Architecture_BDD/RAS_RASTER.png}}%
+\caption{Diagramme des classes présentant l'éventail des produits rasters}%
+\end{sidewaysfigure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%   ANNEXE B  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\annexe[Base de données de la Polynésie Française - Liste des classes et informations]{ Architecture de la base de Données de la Polynésie Française \newline \textit{Liste des classes et informations}}
+\label{annexearchitecure}
+
+\begin{table}[!h]
+
+\begin{center}
+    \includegraphics[width=11.95cm]{images/Annexes/table.jpg}%
+    \label{fig:graphics:b}% label for subfigure
+    \caption{Tableau récapitulatif des classes de la base de donnée et de leur état de généralisation avant le projet}
+\end{center}
+
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%   ANNEXE C  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\annexe[Répartition de la Polynésie Française en quatre fuseaux ]{ Répartition de la Polynésie Française en quatre fuseaux}
+\label{annexefuseau}
+
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=\linewidth]{images/chap0/PF_carte_generale_UTM_90x90_2012-1.png}
+\caption{Carte des fuseaux UTM de la Polynésie Française - Produit de la section topographie - 2012}
+\label{fuseauUTM}
+\end{figure}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%   ANNEXE D  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Mise en forme des txt %%
+\makeatletter
+\newcommand\verbfile[1]{%
+	\begingroup
+		\let\do\@makeother\dospecials
+		\obeyspaces\ttfamily
+		\catcode`\^^M\active
+		\begingroup\lccode`\~`\^^M \lowercase{\endgroup\def~{\par\leavevmode}}%
+		\input#1\relax
+	\endgroup
+}
+\makeatother
+
+%% ___________________________________
+ 
+
+\annexe[Détail des traitements réalisés sur les couches]{Détail des traitements réalisés sur les couches}
+\label{annexemodelbuilder}
+
+%-----------------------------
+
+\begin{center}
+    \Large
+    \textbf{EDI\_BATI}
+\end{center}
+
+\verbfile{README_TXT/README_EDI_Bati.txt}
+
+\begin{sidewaysfigure}
+\centering
+\subfigure{%
+\label{fig:graphics:a}% label for subfigure
+\includegraphics[width=\linewidth]{images/Annexes/modelbuilder/Modele_EDI_BATI.png}}%
+\caption{ModelBuilder d'ArcGIS pour le traitement des couches de bâtiments}%
+\textit{Commentaire éventuel}
+\label{fig:graphics}% label for figure
+\end{sidewaysfigure}
+
+
+\clearpage
+% ---------------------------
+
+
+\begin{center}
+    \Large
+    \textbf{EDI\_CONSTRUCTION\_S}
+\end{center}
+
+\verbfile{README_TXT/README_EDI_construction_S.txt}
+
+\addtocounter{figure}{-1}
+\begin{figure}
+\addtocounter{figure}{1}
+\centering
+\subfigure{%
+\label{fig:graphics:b}% label for subfigure
+\includegraphics[width=\linewidth]{images/Annexes/modelbuilder/Modèle_EDI_CONSTRUCTION_S.png}}%
+\caption{ModelBuilder d'ArcGIS pour le traitement des couches de constructions surfaciques}%
+\textit{Commentaire éventuel}
+\end{figure}
+
+
+\clearpage
+% ---------------------------
+
+
+\begin{center}
+    \Large
+    \textbf{LOC\_ile}
+\end{center}
+
+\verbfile{README_TXT/README_LOC_ile.txt}
+
+\addtocounter{figure}{-1}
+\begin{sidewaysfigure}
+\addtocounter{figure}{1}
+\centering
+\subfigure{%
+\label{fig:graphics:b}% label for subfigure
+\includegraphics[width=\linewidth]{images/Annexes/modelbuilder/Modèle_LOC_ILE.png}}%
+\caption{ModelBuilder d'ArcGIS pour le traitement des couches de contour des îles}%
+\textit{Commentaire éventuel}
+\end{sidewaysfigure}
+
+
+\clearpage
+% ---------------------------
+
+
+\begin{center}
+    \Large
+    \textbf{LOC\_limite\_commune}
+\end{center}
+
+\verbfile{README_TXT/README_LOC_limite_commune.txt}
+
+\addtocounter{figure}{-1}
+\begin{sidewaysfigure}
+\addtocounter{figure}{1}
+\centering
+\subfigure{%
+\label{fig:graphics:b}% label for subfigure
+\includegraphics[width=\linewidth]{images/Annexes/modelbuilder/Modèle_LOC_ILE.png}}%
+\caption{ModelBuilder d'ArcGIS pour le traitement des couches de contour des communes}%
+\textit{Commentaire éventuel}
+\end{sidewaysfigure}
+
+
+\clearpage
+% ---------------------------
+
+\begin{center}
+    \Large
+    \textbf{REL\_ligne\_relief}
+\end{center}
+
+\verbfile{README_TXT/README_REL_ligne_relief.txt}
+
+\addtocounter{figure}{-1}
+\begin{sidewaysfigure}
+\addtocounter{figure}{1}
+\centering
+\subfigure{%
+\label{fig:graphics:b}% label for subfigure
+\includegraphics[width=\linewidth]{images/Annexes/modelbuilder/fme_REL_ligne de relief.png}}%
+\caption{ModelBuilder d'ArcGIS pour le traitement des couches de contour des communes}%
+\textit{Commentaire éventuel}
+\end{sidewaysfigure}
+
+
+% ---------------------------
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%   ANNEXE XX  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\annexe[Carte IGN 1988 Echelle 1/100 000]{ Carte IGN 1988 Echelle 1/100 000}
+\label{annexeign88}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=\linewidth]{images/Annexes/tahiti_ign_1988.png}%
+\caption{Carte réalisée par l'IGN en 1988 à l'échelle 1/100 000}%
+\label{carte1988}% label for figure
+\end{figure}
+
+
+\definecolor{darkWhite}{rgb}{0.94,0.94,0.94}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%   ANNEXE XX  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\annexe[Classement des récifs coralliens de la Polynésie Française]{ Classement des récifs coralliens de la Polynésie Française}
+\label{annexecorail}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=\linewidth]{images/Annexes/tahiti_ign_1988.png}%
+\caption{Carte réalisée par l'IGN en 1988 à l'échelle 1/100 000}%
+\label{carte1988}% label for figure
+\end{figure}
+
+
+\definecolor{darkWhite}{rgb}{0.94,0.94,0.94}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%   ANNEXE XX  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\annexe[Quelques cartes topographiques avant la diffusion web]{ Quelques cartes topographiques avant la diffusion web}
+\label{annexeresultat}
+
+ 
+\begin{center}
+\large
+    \textbf{\textit{Préambule}}
+\end{center}
+
+Comme cela a été précisé dans le rapport, ces échantillons produits pour chaque échelle avaient pour objectif d'être imprimés au format A0 pour permettre de visualiser le rendu cartographique, d'en distinguer les potentielles erreurs, et de pouvoir corriger certains éléments. De plus, ces cartes au format A0 ont permis à l'ensemble des membres de la section topographie de faire leur retour et pouvoir ainsi améliorer au mieux la cartographie. Cette annexe permet de voir ces résultats. Cependant, les images affichés sont des cartes au format A0 réduites pour tenir sur une page A4. Elles sont donc difficilement lisibles mais donnent tout de même un aperçu des produits papiers réalisés au cours de ce stage avec leur emprise et c'est en cela qu'elles sont intéressantes. Pour permettre la lecture des cartes avec leur légende, des zones ont été sélectionnées et un grossissement a été réalisé. La figure ci-dessous répertorie les éléments de cette annexe pour une échelle donnée.\\
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=\linewidth]{images/Annexes/Resultat/resultat_explication.png}%
+\caption{Inventaire des éléments de cette annexe pour une échelle donnée}
+
+\label{inventaire}% label for figure
+\end{figure}
+
+\textsc{Remarques}:\\
+Les zooms effectués sur les cartes n'ont vocation qu'à rendre les objets cartographiques lisibles. L'impression au format A4 de ce rapport ne donnera pas un aperçu de la réalité. Par exemple un grossissement de la carte au 1/25 000 la rendant visible sur ce rapport ne signifie pas qu'une fois imprimée, un cm sur la carte correspondra à 25 000 cm sur la réalité. Il faut se référer à la barre d'échelle associée.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{center}
+    \Large
+    \colorbox{blue!10}{--------------\- Echelle 1/10 000 --------------\-}
+\end{center}
+
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=\linewidth]{images/Annexes/Resultat/lengende_10.png}
+\caption{Légende de la carte au 1/10 000}
+\label{10000_legende}
+\end{figure}
+
+\vspace{3cm}
+\textsc{Commentaires sur la carte au 1/10 000 :}\\
+bornes pk,  quais etc etc
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=\linewidth]{images/Annexes/Resultat/Carte_10000_A4.pdf}
+\caption{Grossissement de la carte au 1/10 000 centrée sur le port de Papeete}
+\label{10000_gros}
+\end{figure}
+
+\begin{sidewaysfigure}[!h]
+\centering
+\includegraphics[width=\linewidth]{images/Annexes/Resultat/Carte_10000.pdf}%
+\caption{Poster format A0 réduit\color{red}{ Version 1}}
+\colorbox{blue!10}{Echelle 1/10 000}
+\label{10000}% label for figure
+\end{sidewaysfigure}
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}
+    \Large
+    \colorbox{yellow!10}{--------------\- Echelle 1/15 000 --------------\-}
+\end{center}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=\linewidth]{images/Annexes/Resultat/legende_15.png}
+\caption{Légende de la carte au 1/15 000}
+\label{15000_legende}
+\end{figure}
+
+\vspace{3cm}
+\textsc{Commentaires sur la carte au 1/15 000 :}\\
+Chemins de rando, etc, etc
+\begin{figure}[!h]
+\centering
+\includegraphics[width=\linewidth]{images/Annexes/Resultat/Carte_15000_A4.pdf}
+\caption{Grossissement de la carte au 1/15 000 centrée sur Punaauia}
+\label{15000_gros}
+\end{figure}
+
+\begin{sidewaysfigure}[!h]
+\centering
+\includegraphics[width=\linewidth]{images/Annexes/Resultat/Carte_15000_v2-bis.pdf}%
+\caption{Echantillon résultat (version 2) }
+\colorbox{yellow!10}{Echelle 1/15 000}
+\label{15000 v2}% label for figure
+\end{sidewaysfigure}
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}
+    \Large
+    \colorbox{green!10}{--------------\- Echelle 1/25 000 --------------\-}
+\end{center}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=\linewidth]{images/Annexes/Resultat/legende_25.png}
+\caption{Légende de la carte au 1/25 000}
+\label{15000_legende}
+\end{figure}
+
+\vspace{3cm}
+\textsc{Commentaires sur la carte au 1/25 000 :}\\
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=\linewidth]{images/Annexes/Resultat/Carte_25000_A4.pdf}
+\caption{Grossissement de la carte au 1/25 000 centrée sur ...}
+\label{15000_gros}
+\end{figure}
+
+\begin{sidewaysfigure}[!h]
+\centering
+\includegraphics[width=\linewidth]{images/Annexes/Resultat/Carte_25000_v1-1.png}%
+\caption{Echantillon résultat (version 4) }
+\colorbox{green!10}{Echelle 1/25 000}
+\label{15000 v2}% label for figure
+\end{sidewaysfigure}
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}
+    \Large
+    \colorbox{yellow!10}{--------------\- Echelle 1/50 000 --------------\-}
+\end{center}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=\linewidth]{images/Annexes/Resultat/legende_50.png}
+\caption{Légende de la carte au 1/50 000}
+\label{15000_legende}
+\end{figure}
+
+\vspace{3cm}
+\textsc{Commentaires sur la carte au 1/50 000 :}\\
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=\linewidth]{images/Annexes/Resultat/Carte_50000_A4.pdf}
+\caption{Grossissement de la carte au 1/50 000 centrée sur ...}
+\label{15000_gros}
+\end{figure}
+
+\begin{sidewaysfigure}[!h]
+\centering
+\includegraphics[width=\linewidth]{images/Annexes/Resultat/Carte_50000_v1-1.png}%
+\caption{Echantillon résultat (version 2) }
+\colorbox{blue!10}{Echelle 1/15 000}
+\label{15000 v2}% label for figure
+\end{sidewaysfigure}
+
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%   ANNEXE XX  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\annexe[Affichage pj]{ Affichage des images en pièces jointes sur ArcGIS Online}
+\label{annexepj}
+
+
+\definecolor{darkWhite}{rgb}{0.94,0.94,0.94}
+ 
+\lstset{
+    backgroundcolor=\color{darkWhite},
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    commentstyle=\color{red},
+    deletekeywords={...},
+    escapeinside={\%*}{*)},
+    extendedchars=true,
+    keepspaces=true,
+    keywordstyle=\color{blue},
+    language=C,
+    morekeywords={*,...},
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    stepnumber=1,
+    stringstyle=\color{gray},
+    tabsize=1,
+    title=Code Arcade pour l'affichage des pièces jointes dans ArcGIS Online,
+}
+\lstinputlisting{Code/arcade.js}
+\clearpage
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%   ANNEXE XX  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\annexe[Consommation des crédits ArcGIS pro pour l'export web]{ Consommation des crédits ArcGIS pro pour l'export web}
+\label{crédits}
+
+
+
+\clearpage	
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%   ANNEXE XX  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\annexe[Présentation et fonctionnement du site web créé]{ Présentation du site web créé}
+
+\begin{center}
+    \Large
+    Un portail des produits de la section topographie de la DAF
+\end{center}
+
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=\linewidth]{images/Annexes/siteweb1.png}
+\caption{Capture d'écran du site web créé (1) }
+\label{site1}
+\end{figure}
+Le principal outil développé durant ce stage est un portail (de type géoportail) topographique. Il est accessible dès l'entrée sur le site web, et peut être ouvert dans un onglet approprié. Il comprend les résultats des généralisation effectuées et exportées. Il peut être considéré comme un \textit{fond de carte} et peut être utilisé dans des applications thématiques.
+
+Le site web est exploratoire. Il pourra être repris pour servir de plateforme utile à la diffusion des produits de la section topographie. Il permet aussi de voir les applications et les cartes thématiques. Parmi les applications, le site fait figurer celles concernant la diffusion des fiches géodésiques et de nivellement.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=\linewidth]{images/Annexes/siteweb2.png}
+\caption{Capture d'écran du site web créé (2) }
+\label{site2}
+\end{figure}
+\label{annexepj}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%   ANNEXE XX  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\annexe[Diagramme présentant le déroulement du projet]{ Diagramme présentant le déroulement du projet}
+\label{gantt}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=\linewidth]{images/Annexes/gantt.png}%
+\caption{Diagramme de déroulement du projet}
+\label{gantt}
+\end{figure}
+
+
+Commentaires sur le diagramme...
+
+\clearpage
+
+
+
+
+\end{appendices} 
+
+\end{document}

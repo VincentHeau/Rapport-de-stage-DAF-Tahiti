@@ -1,0 +1,99 @@
+\evenchapter{Création du portail cartographique}
+
+\textit{Ce chapitre présente le travail de mise en ligne du portail cartographique sur la plateforme ArcGIS Online de la Direction des Affaires Foncières}
+
+\section{Fond de plan multi-échelle}
+
+\textit{Jusqu'à présent, chaque niveau d'échelle était représenté par une carte distincte. L'export sur ArcGIS Online a nécessité le regroupement des projets et la création d'un projet nommé "export\_web" entièrement dédié à l'export web.}
+
+\subsection{ Préparation des projets pour l'export}
+
+ArcGIS propose différentes façons d'exporter un projet, que ce soit en carte web ou en couche web.  \\
+
+\textsc{Problèmes liés à l'export d'une couche web générale :}
+
+Cette carte multi-échelle comprenant l'ensemble des données vectorielles et raster est impossible à exporter sur ArcGIS Online en raison du coup trop important (mesuré en crédits par ArcGIS)
+Ce n'est pas tant la quantité de couches qui entraîne le dépassement du nombre de crédits alloués mais bien l'export de données raster.
+Or dans la cartographie initiale, celles-ci sont multiples, qu'il s'agisse des fonds cyan pour la représentations des récifs ou encore des ombrages. Il a donc fallu trouver des alternatives.
+
+Une des premières envisagée a été de convertir les couches raster en couches vectorielles. Pour le fond cyan, cela est passé par l'utilisation plus complète de la couche des récifs classés par télédétection. En groupant les catégories selon la méthode présentée en annexe xx du rapport, il a été possible de distinguer les éléments essentiels des récifs. Le résultat est bien entendu moins satisfaisant qu'avec les fonds cyans. \footnote{des problèmes de classification se sont posés et sont évoqués en annexe xx.}
+
+En ce qui concerne l'ombrage, la possibilité d'un ombrage vectoriel a été envisagé puis abandonnée car le résultat n'est pas satisfaisant. S'il est coûteux d'exporter une gamme d'ombrages différents pour toutes les îles de la Polynésie, l'export d'un seul ombrage de Tahiti et Moorea l'est beaucoup moins. Cependant, la carte multi-échelle initiale ne peut faire figurer la couche d'ombrage qu'une seule fois. Son organisation en groupes de couches par niveau de zoom est pertinente lorsque chaque niveau de zoom a un ombrage adapté mais ne l'est plus en cas de simple ombrage. 
+
+\begin{center}
+    Quelle organisation a été mise en place pour pallier ces difficultés ?
+\end{center}
+
+Chaque niveau de zoom comporte des couches situées au dessus de l'ombrage et d'autres en dessous (comme cela a été évoqué dans le chapitre précédente). La solution adoptée est donc une scission de la carte générale multi-échelle précédentes en deux cartes, l'une nommée \textbf{\textit{Habillage\_multi\_echelle}} comportant pour chaque échelle, uniquement les couches destinées à être au dessus de l'ombrage et l'autre nommée  \textbf{\textit{Fond\_multi\_echelle}} comprenant uniquement des couches sur lesquels l'ombrage vient se superposer.
+Ces deux cartes ne comportent pas de données raster et sont exportées sur ArcGIS Online en tant que couches web du même nom.
+
+En ce qui concerne l'ombrage, ce dernier doit donc être placé entre les deux couches web précédentes. En utilisant la couche Terrain d'Esri, il est possible de ne pas avoir à exporter de données raster coûteuses sur ArcGIS Online. Mais comme en témoigne la figure \ref{ombrage} du chapitre 1, l'ombrage d'Esri est imprécis sur les zones montagneuses (souvent couvertes de nuages) de Tahiti. Il est donc utilisé à de petites échelles ne nécessitant pas un besoin important de précision et est combiné à un ombrage précis exporté sur une zone restreinte (Tahiti et Moorea) et pour des gammes d'échelles limitées dans l'optique de ne pas utiliser trop de crédits.  Cette couche web nommée \textbf{\textit{Ombrage\_TAH\_MOO}} est provisoire et doit être étendue sur toutes les îles hautes de la Polynésie française pour un rendu optimal sur le portail final.
+
+
+\subsection{Utilisation d'un flux web de type tuiles vectorielles}
+
+Deux éléments principaux doivent donc être exportées en couche web : l'habillage et le fond de carte.
+Lors de l'export, différents modes sont possibles:
+\begin{itemize}
+    \item en tant qu'entités web
+    \item en tant que tuiles
+    \item en tant que tuiles vectorielles d'entités web
+    \item en tant que tuiles vectorielles
+\end{itemize}
+
+Compte-tenu la multiplicité des couches et de leur symbologie composant les cartes \textbf{\textit{Fond\_multi\_echelle}} et \textbf{\textit{Habillage\_multi\_echelle}}, le partage en tant qu'entités web et tuiles vectorielles d'entités web s'avère infaisable. L'analyse indique de nombreuses erreurs liées à la non prise en charge du type de couche par ArcGIS.
+Il reste donc deux possiblités dont une est beaucoup trop coûteuse en crédits : l'export en tuiles. En effet, ces tuiles, qui ne sont pas des tuiles vectorielles mais bel et bien raster représente un stockage immense dépassant les teraoctect de données sur de grandes échelles notamment en raison de l'ampleur de la zone à cartographier (l'équivalent de la superficie de l'Europe sans la Russie).
+
+L'export se fait de chaque carte en couches web se fait donc via le mode tuiles vectorielles. ce mode présente l'avantage de pouvoir faire des mises à jour du style directement sur arcGIS online via un outil spécialisé permettant de manipuler directement le fichier JSON du style de la couche. Il est possible par exemple de changer la couleur des chemins, des routes, etc ) mais la couche résultante 
+
+
+NON TERMINE
+
+
+
+
+
+\section{Valorisation du fond de plan au travail d'applications thématiques}
+
+\subsection{Géoportail et site web de la section topo}
+{\color{magenta} Présenter les produits créés, comment les utiliser et leur vocation future (développement des thématiques en fonction des besoins)}
+
+\subsection{Portail des fiches géodésiques et de nivellement}
+
+
+ Qu'il s'agisse de cartes thématiques ( touristiques, de randonnée, etc...), de nombreux éléments peuvent être ajoutés à la carte actuelle. Par ailleurs, selon le thème choisi, il est possible de modifier l'habillage pour l'alléger et ainsi mettre en évidence cette thématique.
+
+La dernière partie de ce projet qui concerne la diffusion des fiches géodésiques et de nivellement. L'objectif est de réaliser une version du portail qui soit spécialement consacrée à la diffusion de ces fiches pour les géomètres sur le terrain.
+Il s'agit sur le portail précédemment créé, d'ajouter une couches des points de repère et de proposer au clic, une fenêtre contextuelle avec quelques information essentielles de la fiche ainsi qu'une photo. Le travail se découpe en plusieurs parties : 
+\begin{itemize}
+    \item Export depuis ARCGIS pro de la bonne version de la couche des repères avec la table des mesures associée
+    \item Création sur Arcgis Pro d'une vue avec les éléments à diffuser
+    \item Configuration de la fenêtre contextuelle avec les illustrations et les informations
+    \item Ajout de la carte thématique au portail en ligne
+\end{itemize}
+
+{\color{magenta} Détailler les 4 items avec figures illustratives - ici, un bout seulement}
+
+La fenêtre contextuelle doit contenir un condensé des éléments essentiels au géomètre qui devra trouver la majorité des renseignements nécessaires à cette endroit et pourra le cas échéant, accéder à la fiche pdf pour trouver des informations complémentaires. L'export qui à été décrit dans la partie ... permettait d'associer à la couche de donnée des pièces jointes incluant la photo au format jpeg ainsi que la fiche au format pdf. La fenêtre contextuelle doit d'abord faire figurer cette photo. Pour cela, un champ URL\_image doit être créé dans les champs de la couche pour y insérer le lien vers l'image en question. C'est par ce biais que l'image pourra être afficher dans la fenêtre contextuelle. La démarche de création du champ suit l'article de Gaetan Lavenu sur Arcorama \cite{lavenu} 
+
+Cependant, la création du champ URL\_image différe de celui qui est proposé dans l'article car la couche des repères possède plusieurs pièces jointes et seules celles au format "image/jpeg" sont affichées dans la fenêtre. Le code permet donc de récupérer les id des pièces jointes désirées en les triant sur leur format selon qu'il s'agit de fiche pdf ou d'images jpeg. Ce code est expliqué en Annexe D. 
+{\color{magenta} Détailler l'explication dans l'annexe}
+\textsc{Remarques:} Une fois validée, la mise à jour du champ sur ArcGIS Online est particulièrement longue en ligne et nécessite environ 15 minutes pour 4000 éléments.
+
+
+\section{Limites d'utilisation du portail}
+
+\subsection {Limitations}
+{\color{magenta} Détailler les problèmes  comme 
+- les récifs
+- les étiquettes
+- l'absence de légende ( à voir avec ce qui a été déjà dit avant )
+l'étiquetage sur les archipels et les cartes à des échelles supérieurs au 1/500 000. N'a pas été le principal thème de travail et les informations sont suffisantes sans être assez fournies avec quelques défauts d'étiquetage.
+- l'ombrage imprécis d'esri+ Difficultés liées à la maintenance du portail et à la mise à jour des données}
+
+\subsection {Axes d'amélioration}
+Après avoir énuméré les limitations, cette sous-partie propose des axes d'amélioration pour la diffusion et la mise à jour d'un tel portail. 
+{\color{magenta} 
+
+- ombrage : soit la daf donne ses ombrages à esri pour éviter l'export assez coûteux (comme c'est le cas d'autres pays voir tableau). Ou alors export des ombrages. Problème, le nombre important d'îles hautes et donc d'ombrage. Le coût en crédit
+- l'ombrage + Difficultés liées à la maintenance du portail et à la mise à jour des données}
