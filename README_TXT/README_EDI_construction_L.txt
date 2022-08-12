@@ -10,6 +10,6 @@ Pas de généralisation de cette couche pour ne pas interférer avec les autres.
 - sélection par catégorie ( on conserve par exemple plus longtemps les ouvrages d'art et lignes électriques)
 - sélection par taille pour éliminer les plus petites entitées
 
-# Remarques
+# Remarques et pistes d'amélioration
 
 La ligne électrique qui traverse l'île de Tahiti n'est pas représentée sur la totalité du trajet. Comme il s'agit d'un élément marquant du payasage, elle est représentée aux petites échelles également

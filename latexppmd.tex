@@ -200,12 +200,14 @@ En Polynésie Française, les données cartographiques sont mises à disposition
 \end{comment}
 %---Introduction------------------------------------------------------------------
 \newevenpage
-\chapter*{Introduction}
+\chapter*{Introduction et objectifs du stage}
   \addcontentsline{toc}{chapter}{Introduction}
   
-  \vspace{1.5cm}
-	Cartographier la Polynésie Française, c'est cartographier un espace vaste de 4167 km², équivalent à la superficie de l’Europe. C'est la mission de la Direction des Affaires Foncières de la Polynésie Française et plus particulièrement celle de la section cadastre-topographie, qui est l'une des quatre grandes divisons de la DAF. Deux géomaticiens, deux géomètres et un aide technique travaillent au sein de la cellule topographie et maintiennent et mettent à jour les données. Elles sont d'une grande précision et disponibles pour l'ensemble des îles de la Polynésie Françaises mais ne sont adaptées que pour une cartographie à l'échelle 1/5000. La DAF propose dans un catalogue, de nombreux produits cartographiques sur demande des utilisateurs mais il n'existe pas à l'heure actuelle de généralisation globale de cette base de données pouvant servir à la cartographie web.
-	
+  \vspace{0.5cm}
+	Cartographier la Polynésie Française, c'est cartographier un espace vaste de 4167 km², équivalent à la superficie de l’Europe. C'est la mission de la Direction des Affaires Foncières de la Polynésie Française (DAF) et plus particulièrement celle de la section cadastre-topographie, qui est l'une des quatre divisions de la DAF. Deux géomaticiens, deux géomètres et un aide technique travaillent au sein de la cellule topographie et maintiennent et mettent à jour les données. Elles sont d'une grande précision et disponibles pour l'ensemble des îles de la Polynésie Françaises mais ne sont adaptées que pour une cartographie à l'échelle 1/5000. La DAF propose dans un catalogue, de nombreux produits cartographiques sur demande des utilisateurs mais il n'existe pas à l'heure actuelle de généralisation globale de cette base de données pouvant servir à la cartographie web.
+
+    \section*{Objectifs du stage}
+    \addcontentsline{toc}{section}{Objectifs du stage}
 	Avec l'essor des plateformes de type "Géoportail", la demande en cartographie web est forte. L'objectif de ce stage est de réaliser un travail préparatoire et exploratoire dans ce domaine pour fournir une première version d'un fond de carte adapté à un géoportail. L'ensemble des traitements effectués servant à généraliser les couches, ainsi que l'étiquetage et la symbologie proposée serviront donc de base pour la cellule topographie de la DAF qui pourra s'appuyer sur ce travail par la suite. Ce projet se compose donc de plusieurs phases de travail permettant d'aboutir à une diffusion via ArcGIS Online des données. Il répond à la problématique de diffuser sur le web un portail cartographique spécifique à la Polynésie Française.
 	
 	Les grands axes de ce rapport suivent le déroulement du projet. Il s'agira d'abord de prendre en main l'architecture de la base de données puis de choisir une gamme d'échelles. Ensuite, ce rapport évoquera les traitements spécifiques à chaque couche via des logiciels comme ArcGIS Pro ou FME. Puis le projet se poursuivra par une phase de cartographie sur ArcGIS PRO nécessitant la mise en place d'un étiquetage, d'une symbologie ainsi que l'ajout de raster permettant l'habillage de la carte. Ces phases préparatoires conséquentes, qui constituent la plus grande partie du travail réalisé, permettront de disposer d'une gamme de cartes adaptées à des échelles variées. Cependant, leur diffusion web, qui correspond au dernier axe de travail nécessite une restructuration pour faire face aux contraintes de l'export qui seront détaillées dans ce rapport. La diffusion web via ArcGIS Online sera l'occasion de décliner le portail à diverses utilisations, notamment au travers d'une application web destinée à la diffusion des fiches géodésiques et de nivellement. 
@@ -526,6 +528,28 @@ La prise en main de la base de donnée nécessite de connaître l'ensemble des t
 
 \begin{center}
     \Large
+    \textbf{EDI\_CONSTRUCTION\_P}
+\end{center}
+
+\verbfile{README_TXT/README_EDI_construction_P.txt}
+
+
+% ---------------------------
+
+\begin{center}
+    \Large
+    \textbf{EDI\_CONSTRUCTION\_L}
+\end{center}
+
+\verbfile{README_TXT/README_EDI_construction_L.txt}
+
+
+\clearpage
+% ---------------------------
+
+
+\begin{center}
+    \Large
     \textbf{LOC\_ile}
 \end{center}
 
@@ -571,10 +595,15 @@ La prise en main de la base de donnée nécessite de connaître l'ensemble des t
 
 \begin{center}
     \Large
-    \textbf{REL\_ligne\_relief}
+    \textbf{REL\_ligne\_relief}\\
+    \small 
+    Commentaire sur les points côtés REF\_repere
 \end{center}
 
 \verbfile{README_TXT/README_REL_ligne_relief.txt}
+
+\vspace{1.5cm}
+\verbfile{README_TXT/README_REF_repere.txt}
 
 \addtocounter{figure}{-1}
 \begin{sidewaysfigure}
@@ -582,14 +611,130 @@ La prise en main de la base de donnée nécessite de connaître l'ensemble des t
 \centering
 \subfigure{%
 \label{fig:graphics:b}% label for subfigure
-\includegraphics[width=\linewidth]{images/Annexes/modelbuilder/fme_REL_ligne de relief.png}}%
+\includegraphics[width=\linewidth]{images/Annexes/modelbuilder/modèle_FME-1.jpg}}%
 \caption{ModelBuilder d'ArcGIS pour le traitement des couches de contour des communes}%
 \textit{Commentaire éventuel}
 \end{sidewaysfigure}
 
-
+\clearpage
 % ---------------------------
 
+\begin{center}
+    \Large
+    \textbf{Couches d'occupation du sol}\\
+    \vspace{0.5cm}
+    \small
+    SOL\_ARBRE\_CARACTERISTIQUE, SOL\_OCCUPATION\_S, SOL\_LIMITE\_VEGETALE
+\end{center}
+
+\verbfile{README_TXT/README_arbre_caracteristique.txt}
+\verbfile{README_TXT/README_occupation_S.txt}
+\verbfile{README_TXT/README_limite_vegetale.txt}
+
+
+
+\clearpage
+% ---------------------------
+
+
+\begin{center}
+    \Large
+    \textbf{HYD\_limite\_eau}
+\end{center}
+
+\verbfile{README_TXT/README_limite_eau.txt}
+
+\begin{comment}
+    \addtocounter{figure}{-1}
+\begin{sidewaysfigure}
+\addtocounter{figure}{1}
+\centering
+\subfigure{%
+\label{fig:graphics:b}% label for subfigure
+\includegraphics[width=\linewidth]{images/Annexes/modelbuilder/Modèle_LOC_ILE.png}}%
+\caption{ModelBuilder d'ArcGIS pour le traitement des couches de contour des communes}%
+\textit{Commentaire éventuel}
+\end{sidewaysfigure}
+\end{comment}
+
+
+
+\clearpage
+% ---------------------------
+
+
+\begin{center}
+    \Large
+    \textbf{HYD\_point\_eau\_P}
+\end{center}
+
+\verbfile{README_TXT/README_point_eau.txt}
+
+\includegraphics[width=2cm]{images/Annexes/modelbuilder/waterfall.png}%
+
+
+
+\clearpage
+% ---------------------------
+
+
+\begin{center}
+    \Large
+    \textbf{HYD\_surface\_eau}
+\end{center}
+
+\verbfile{README_TXT/README_HYD_surface_eau.txt}
+
+\addtocounter{figure}{-1}
+\begin{sidewaysfigure}
+\addtocounter{figure}{1}
+\centering
+\subfigure{%
+\label{fig:graphics:b}% label for subfigure
+\includegraphics[width=\linewidth]{images/Annexes/modelbuilder/Modèle HYD_SURFACE_EAU.png}}%
+\caption{ModelBuilder d'ArcGIS pour le traitement des couches de surface d'eau}%
+\textit{Commentaire éventuel}
+\end{sidewaysfigure}
+
+
+\clearpage
+% ---------------------------
+
+
+\begin{center}
+    \Large
+    \textbf{HYD\_troncon\_eau}
+\end{center}
+
+Le traitement réalisé ici pour les échelles du 1/50000 au 1/250 000 nécessite un MNT comme couche de départ. Les résultats ne s'appliquent donc qu'aux îles de Tahiti et Moorea. L'élargissement de ce traitement sur l'ensemble de la Polynésie est donc assez longue et peu être évitée en cas de restructuration de cette couche. (création d'un champ classant les segments par importance, correction des erreurs de toponymie)
+
+\verbfile{README_TXT/README_HYD_troncon_eau.txt}
+
+\addtocounter{figure}{-1}
+\begin{sidewaysfigure}
+\addtocounter{figure}{1}
+\centering
+\subfigure{%
+\label{fig:graphics:b}% label for subfigure
+\includegraphics[width=\linewidth]{images/Annexes/modelbuilder/hydro.png}}%
+\caption{Schéma simplifié du traitement réalisé pour l'extraction des cours d'eau du MNT}%
+\textit{Commentaire éventuel}
+\end{sidewaysfigure}
+
+\addtocounter{figure}{-1}
+\begin{sidewaysfigure}
+\addtocounter{figure}{1}
+\centering
+\subfigure{%
+\label{fig:graphics:b}% label for subfigure
+\includegraphics[width=\linewidth]{images/Annexes/modelbuilder/Modèle HYD_TRONCONS.png}}%
+\caption{ModelBuilder d'ArcGIS pour l'extraction des cours d'eau du MNT}%
+\textit{Commentaire éventuel}
+\end{sidewaysfigure}
+
+
+\clearpage
+% ---------------------------
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%   ANNEXE XX  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -726,7 +871,7 @@ Chemins de rando, etc, etc
 
 \begin{figure}[!h]
 \centering
-\includegraphics[width=\linewidth]{images/Annexes/Resultat/legende_25.png}
+\includegraphics[width=\linewidth]{images/Annexes/Resultat/legende25.png}
 \caption{Légende de la carte au 1/25 000}
 \label{15000_legende}
 \end{figure}
@@ -737,13 +882,13 @@ Chemins de rando, etc, etc
 \begin{figure}[!h]
 \centering
 \includegraphics[width=\linewidth]{images/Annexes/Resultat/Carte_25000_A4.pdf}
-\caption{Grossissement de la carte au 1/25 000 centrée sur ...}
+\caption{Grossissement de la carte au 1/25 000 centrée sur Afaahiti}
 \label{15000_gros}
 \end{figure}
 
 \begin{sidewaysfigure}[!h]
 \centering
-\includegraphics[width=\linewidth]{images/Annexes/Resultat/Carte_25000_v1-1.png}%
+\includegraphics[width=\linewidth]{images/Annexes/Resultat/Carte_25000_v4-1.png}%
 \caption{Echantillon résultat (version 4) }
 \colorbox{green!10}{Echelle 1/25 000}
 \label{15000 v2}% label for figure
@@ -769,16 +914,115 @@ Chemins de rando, etc, etc
 \begin{figure}[!h]
 \centering
 \includegraphics[width=\linewidth]{images/Annexes/Resultat/Carte_50000_A4.pdf}
-\caption{Grossissement de la carte au 1/50 000 centrée sur ...}
+\caption{Grossissement de la carte au 1/50 000 centrée sur le Mont Marau}
 \label{15000_gros}
 \end{figure}
 
 \begin{sidewaysfigure}[!h]
 \centering
-\includegraphics[width=\linewidth]{images/Annexes/Resultat/Carte_50000_v1-1.png}%
+\includegraphics[width=\linewidth]{images/Annexes/Resultat/Carte_50000_v3.pdf}%
 \caption{Echantillon résultat (version 2) }
 \colorbox{blue!10}{Echelle 1/15 000}
 \label{15000 v2}% label for figure
+\end{sidewaysfigure}
+
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}
+    \Large
+    \colorbox{orange!10}{--------------\- Echelle 1/100 000 --------------\-}
+\end{center}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=\linewidth]{images/Annexes/Resultat/legende_100.png}
+\caption{Légende de la carte au 1/100 000}
+\label{100000_legende}
+\end{figure}
+
+\vspace{3cm}
+\textsc{Commentaires sur la carte au 1/100 000 :}\\
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=\linewidth]{images/Annexes/Resultat/Carte_100000_A4.pdf}
+\caption{Grossissement de la carte au 1/100 000 centrée sur les plus hauts sommets de Tahiti}
+\label{100000_gros}
+\end{figure}
+
+\begin{sidewaysfigure}[!h]
+\centering
+\includegraphics[width=\linewidth]{images/Annexes/Resultat/Carte_100000_v0.pdf}%
+\caption{Echantillon résultat (version 1) }
+\colorbox{orange!10}{Echelle 1/100 000}
+\label{100 000 v2}% label for figure
+\end{sidewaysfigure}
+
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}
+    \Large
+    \colorbox{red!10}{--------------\- Echelle 1/250 000 --------------\-}
+\end{center}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=\linewidth]{images/Annexes/Resultat/legende_250.png}
+\caption{Légende de la carte au 1/250 000}
+\label{250 000_legende}
+\end{figure}
+
+\vspace{3cm}
+\textsc{Commentaires sur la carte au 1/250 000 :}\\
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=\linewidth]{images/Annexes/Resultat/Carte_250000_A4.pdf}
+\caption{Grossissement de la carte au 1/250 000 centrée sur Tahiti et Moorea}
+\label{250 000_gros}
+\end{figure}
+
+\begin{sidewaysfigure}[!h]
+\centering
+\includegraphics[width=\linewidth]{images/Annexes/Resultat/Carte_250000_v1.pdf}%
+\caption{Echantillon résultat (version 1) }
+\colorbox{red!10}{Echelle 1/250 000}
+\label{100 000 v2}% label for figure
+\end{sidewaysfigure}
+
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}
+    \Large
+    \colorbox{black!10}{--------------\- Echelle 1/500 000 --------------\-}
+\end{center}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=\linewidth]{images/Annexes/Resultat/legende_500.png}
+\caption{Légende de la carte au 1/500 000}
+\label{500000_legende}
+\end{figure}
+
+\vspace{3cm}
+\textsc{Commentaires sur la carte au 1/500 000 :}\\
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=\linewidth]{images/Annexes/Resultat/Carte_500000_A4.pdf}
+\caption{Grossissement de la carte au 1/500 000 centrée sur Tahiti et Moorea}
+\label{500000_gros}
+\end{figure}
+
+\begin{sidewaysfigure}[!h]
+\centering
+\includegraphics[width=\linewidth]{images/Annexes/Resultat/Carte_500000_v1.pdf}%
+\caption{Echantillon résultat (version 1) }
+\colorbox{black!10}{Echelle 1/500 000}
+\label{500000 v2}% label for figure
 \end{sidewaysfigure}
 
 \clearpage
@@ -820,17 +1064,6 @@ Chemins de rando, etc, etc
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%   ANNEXE XX  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\annexe[Consommation des crédits ArcGIS pro pour l'export web]{ Consommation des crédits ArcGIS pro pour l'export web}
-\label{crédits}
-
-
-
-\clearpage	
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%   ANNEXE XX  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \annexe[Présentation et fonctionnement du site web créé]{ Présentation du site web créé}
 
 \begin{center}
@@ -857,6 +1090,21 @@ Le site web est exploratoire. Il pourra être repris pour servir de plateforme u
 \end{figure}
 \label{annexepj}
 
+\begin{figure}[!h]
+\centering
+\includegraphics[width=\linewidth]{images/Annexes/siteweb2.png}
+\caption{Capture d'écran du site web créé (2) }
+\label{site2}
+\end{figure}
+\label{annexepj}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=\linewidth]{images/Annexes/siteweb2.png}
+\caption{Capture d'écran du site web créé (2) }
+\label{site2}
+\end{figure}
+\label{annexepj}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -1,6 +1,6 @@
 \evenchapter{Généralisation cartographique et préparation des données}
 
-\textit{Cette partie aborde le travail préparatoire d'environ cinq semaines.\footnote{Le déroulement du projet figure en annexe} La base de donnée topographique de la Polynésie Française comporte les couches produites pour l'échelle 1/5000 et doivent être généralisées pour s'adapter à des échelles plus petites allant jusqu'au 1/500 000.}
+\textit{Cette partie aborde le travail préparatoire d'environ cinq semaines.\footnote{Le déroulement du projet figure en annexe ??} La base de donnée topographique de la Polynésie Française comporte les couches produites pour l'échelle 1/5000 et doivent être généralisées pour s'adapter à des échelles plus petites allant jusqu'au 1/500 000.}
 
 
 
@@ -8,15 +8,25 @@
 \section{Préparation des traitements}
 \subsection{Inventaire des traitements et des outils à disposition}
 
-Les deux logiciels utilisés pour le traitement des données, FME Workbench 2022.0 et ArcGIS Pro, présentent une gamme d'outils servant à la généralisation. Les opérations qui seront utilisées sont détaillées dans la figure XX. 
-{\color{magenta} NON REDIGE : Figure du jeu d'outil de généralisation qui présente les différents outils classés selon leur type.}
-Le travail a été majoritairement effectué avec ArcGIS PRO à l'aide de l'outil ModelBuilder. Des scripts sur FME ont aussi été utilisés notamment pour les courbes de niveau et la problématique que leur généralisation soit en accord avec les points côtés. %Les outils sont classés selon les types de généralisation en reprenant le vocabulaire de \cite{Mustiere2001}.
-
+Les deux logiciels utilisés pour le traitement des données, FME Workbench 2022.0 et ArcGIS Pro, présentent une gamme d'outils servant à la généralisation. Les opérations qui seront utilisées sont détaillées dans la figure XX. Les outils sont classés selon les types de généralisation en reprenant le vocabulaire de \cite{Mustiere2001} qui a proposé une classification de ces opérateurs.
+Le travail a été majoritairement effectué avec ArcGIS PRO à l'aide de l'outil ModelBuilder. Des scripts sur FME ont aussi été utilisés notamment pour les courbes de niveau et la problématique que leur généralisation soit en accord avec les points côtés. 
 L’utilisation du ModelBuilder permet de transmettre et modifier facilement le travail réalisé à la suite du stage. 
 
 \subsection{Structuration des métadonnées}
 
-{\color{magenta} NON REDIGE : Explication de la structure des métadonnées avec données sources, type de traitement, gamme d'échelle, étendue, explication de la structure de la BD finale et des couches qui la composent - Explication du choix des deux champs échelle min et et échelle Max + principaux géotraitements}
+Chacune des opérations de généralisation \footnote{Désignés comme un traitement dans ce rapport} prennent en amont des données de départ. Les métadonnées sont produites pour chaque traitements et explicitent les éléments suivants :
+\begin{itemize}
+\item Les données de départ 
+\item La nature des traitements effectuées ( nom de l'algorithme employé, du logiciel utilisé ) avec leurs paramètres et l'objectif d'un tel traitement. Souvent, les paramètres des géotraitements sont adaptés à l'échelle ou à une étendue géographique bien précise ce qui est aussi mentionné.
+\item les données d'arrivée généralisées
+\item les limites du traitement ainsi des pistes d'améliorations suggérées
+\end{itemize}
+
+Les couches généralisées cumulent lorsque cela est possible, les objets adaptés aux différentes échelles. 
+Une sélection peut se faire dans ce cas via la table attributaire et les champs ECHELLE\_MIN et ECHELLE\_MAX qui indiquent sur quel plage d'échelle chaque entités de la couche doit être utilisée.
+La partie 2.2 présente ces traitements tandis que l'ensemble des métadonnées figure en annexe
+ ?? avec le schéma de l'algorithme associé ( ModelBuilder d'ArcGIS ou modèle FME )
+
 
 
 \section{Principaux traitements de généralisation}
@@ -87,7 +97,6 @@ En ce qui concerne les algorithmes, D-PK puis PAEK à décrire avec une figure
     \textbf{REL\_ligne\_relief}
 \end{center}
 L'annexe B décrit entre autres l'ensemble des catégories figurant dans la couche REL\_ligne\_relief. On observe de nombreux traits de reliefs. Certains sont à éliminer dès les premières échelles en dessous du 1/5000. C'est le cas notamment des éléments qui font partie de la catégorie \textit{Lignes caractéristiques}. 
-{\color{magenta} NON REDIGE : Possible remarque sur les falaises et leur symbologie}
 
 En ce qui concerne les courbes de niveau, la mise en évidence des courbes maîtresses et l'équidistance de celles-ci ne change pas jusqu'au 1/ 25 000 où le besoin de précision est extrêmement important. Il est à noter comme précisé dans la partie 2.1.2, que la carte au 1/25 000 est une carte topographique dont l'utilité comme c'est le cas en métropole peut être celle de la randonnée et de l'exploration. En effet, l'échelle est trop importante pour être utilisée pour le cadastre mais permet de couvrir avec précision une zone suffisamment grande pour visualiser quelques randonnées dans leur intégralité.
 
@@ -101,9 +110,8 @@ Comme on peut le retrouver dans la documentation FME ainsi que dans les exemples
 \caption{Quelques résultats de généralisation sur la couche EDI\_BATI}
 \label{situation_sherbend}
 \end{figure}
-La figure \ref{situation_sherbend} décrit les étapes du processus de généralisation.
-{\color{magenta} Cette solution n'est pas optimale et de potentielles erreurs sont possibles. }
-Les données de départ sont les courbes de niveau non généralisée avec les points côtés  du 1/50000, c'est à dire ceux qui seront affichés sur la carte avec les courbes de niveau généralisée.
+La figure \ref{situation_sherbend} décrit les étapes du processus de généralisation. Cette solution n'est pas optimale et de potentielles erreurs sont possibles et seront décrites dans ce rapport
+Les données de départ sont les courbes de niveau non généralisée avec les points côtés  du 1/50000, c'est à dire ceux qui seront affichés sur la carte avec les courbes de niveau généralisées.
 Un traitement préalable de sélection attributaire permet de ne garder que les courbes de niveau dites maîtresses (équidistantes de 100 m). Voici le descriptif des traitements ( illustrés par la figure \ref{situation_sherbend})
 \begin{itemize}
 \item Le premier traitement du script FME est une généralisation assez fine avec l'algorithme de Douglas-Peuker.  Ce traitement s'avère nécessaire pour permettre d'appliquer par la suite le traitement \textit{"SherbendGeneralizer"}. S'il n'est pas effectué , les temps de calculs seront beaucoup trop longs et cela d'autant plus si la généralisation ne s'applique sur toutes les courbes de niveau et non pas seulement comme c'est le cas ici sur les courbes maîtresses. Cependant, travailler sur des plus petites zones permet d'éviter cette étape. Il faut aussi noter que la généralisation est à priori assez fine et bien qu'il soit possible de fausser certains points avec cette étape, le risque reste faible avec les paramètres choisis ( paramètres détaillés dans l'annexe xx). A l'issu de ce traitement, le résultat est illustré par la Situation 2 de la figure \ref{situation_sherbend}
@@ -132,16 +140,15 @@ Comment généraliser ces deux couches à des échelles inférieures ?
 \end{center}
 Un possibilité pourrait être de considéré à partir du 1/50 000 uniquement les cours d'eau catégorisés pour cette échelle. Cependant, aucun champ de la base de donnée ne classe les cours d'eau. Une tentative a été faite en ne sélectionnant que les cours d'eau nommé car ces derniers sont jugés suffisamment important. Cependant cette méthode ne fonctionne pas car la base de donnée présente de nombreuses portions de cours d'eau non nommé. C'est donc une tout autre méthode qui doit être envisagée. Il s'agit d'une solution amenée à être provisoire en cas de restructuration future de la BDD.
 
-Pour les petites échelles, les tracés hydrographiques se font à partir d'un MNT sur lequel des traitements hydrologiques ont été réalisés. Les documents de l'annexe xx détaillent ces traitements et les quantifient. dans cette annexe, un schéma simplifié décrit l'enchaînement des opérations.
+Pour les petites échelles, les tracés hydrographiques se font à partir d'un MNT sur lequel des traitements hydrologiques ont été réalisés. Les documents de l'annexe xx détaillent ces traitements et les quantifient. Le principe est l'enchaînement de traitements sur le MNT raster pour en extraire les pixels correspondant à des rivières et les convertir en une couche vecteur. Une jointure spatiale en fin d'algorithme permet d'ajouter la toponymie des rivières. On notera que cette méthode peut être considérée comme provisoire si la base de donnée vient à être modifiée.
 
-{\color{magenta} NON-REDIGE Expliquer les opérations avec le schéma en annexe et les valeurs utilisées}
 \begin{figure}[ht]
 \centering
 \includegraphics[scale=0.7]{images/chap1/carte_eau.jpg}
 \caption{Représentation des cours d'eau issus du traitement sur MNT}
 \label{carte_eau}
 \end{figure}
-Ce traitement à l'avantage de produire dans la table un champ GRID CODE contenant une valeur de 1 à 4 qui est un atout majeur pour la symbologie puisque ce champ qualifie l'importance du cours d'eau 
+ 
 
 \begin{center}
     \footnotesize
