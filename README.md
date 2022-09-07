@@ -3,7 +3,8 @@ HEAU Vincent | Mai 2022 - Août 2022
 
 ## Diffusion web de la base de données topographique de la Polynésie française
 
-###Résumé 
+#Résumé 
+
 En Polynésie française, les données cartographiques sont conservées et mises à disposition par
 la section Cadastre - Topographie de la Direction des Affaires Foncières (DAF). Jusqu’à présent, la
 donnée cartographique était collectée au 1/5000 et symbolisée à des échelles destinées à l’impression papier : 1/5000, 1/15000, 1/25000 et 1/50000, sans travail de généralisation cartographique.
